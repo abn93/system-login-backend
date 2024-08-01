@@ -26,7 +26,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,12 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
+    'corsheaders',
 
     # apps
     'accounts'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -133,9 +134,31 @@ REST_FRAMEWORK = {
     ),
 }
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:4200',
+]
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = False
+
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'authorization',
+    'X-CSRFToken',
+]
+
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS',
+]
+
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),  # Curta duração
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),     # Longa duração
-    'ROTATE_REFRESH_TOKENS': False,                  # Mantém o mesmo refresh token até expirar
-    'BLACKLIST_AFTER_ROTATION': True,                # Previne o uso de refresh tokens antigos
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),  # Curta duração
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),  # Longa duração
+    'ROTATE_REFRESH_TOKENS': False,  # Mantém o mesmo refresh token até expirar
+    'BLACKLIST_AFTER_ROTATION': True,  # Previne o uso de refresh tokens antigos
 }
